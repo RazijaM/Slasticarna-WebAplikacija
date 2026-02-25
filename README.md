@@ -356,7 +356,7 @@ Cijene se prikazuju putem globalne funkcije `format_km($amount)` u Blade-u (npr.
    php artisan serve
    ```
 
-Aplikacija je dostupna na `http://localhost:8000`. Za admin pristup korisniku u bazi treba dodijeliti ulogu `ADMIN` (npr. u polju `role` u tabeli `users`).
+Aplikacija je dostupna na `http://127.0.0.1:8000`. Za admin pristup korisniku u bazi treba dodijeliti ulogu `ADMIN` (npr. u polju `role` u tabeli `users`).
 
 ---
 
@@ -399,7 +399,7 @@ Aplikacija je dostupna na `http://localhost:8000`. Za admin pristup korisniku u 
 - **Radijus dostave** — Provjera adrese pri checkoutu, cijena dostave.
 - **PDF račun** — Export narudžbe u PDF.
 - **Plaćanje** — Online plaćanje (npr. stripe).
-- **API dokumentacija** — Dokumentirati /api/location i /api/weather.
+- **Sezonske preporuke na osnovu temperature** — Sistem koristi eksterni Weather API kako bi na osnovu trenutne temperature lokacije automatski izdvajao tematski proizvode (npr. hladni napici pri visokim temperaturama, topli napici zimi).
 
 ---
 
@@ -408,20 +408,9 @@ Aplikacija je dostupna na `http://localhost:8000`. Za admin pristup korisniku u 
 Slastičarna "Slatki raj" — Projekat izrađen u sklopu predmeta Objektno orijentisane baze podataka na Tehničkom fakultetu u Bihaću.
 
 - **Akademska godina:** 2025/2026
-- **Autor:** [Razija Merdanić, 1275]
+- **Autor:** Razija Merdanić, 1275
 
----
 
-## 📁 Važniji dijelovi projekta
-
-- **Rute:** `routes/web.php` (web rute), `routes/auth.php` (Breeze prijava/registracija)
-- **Kontroleri:** `app/Http/Controllers/` (ProductController, CartController, CheckoutController, OrderController, ProfileController; admin: Product, Order, Stats, Location)
-- **Modeli:** User, Product, Category, Order, OrderItem, CartItem, RestaurantLocation
-- **API:** `GET /api/location` (lokacija slastičarne), `GET /api/weather` (vrijeme na lokaciji)
-- **Pogledi:** `resources/views/` (dashboard, products, cart, checkout, orders, location, admin, profile)
-- **Pomoćnik za valutu:** `app/Helpers/helpers.php` – funkcija `format_km()` za ispis cijena u KM (npr. 3.517,41 KM)
-
----
 
 ## 🎯 Zaključak
 
