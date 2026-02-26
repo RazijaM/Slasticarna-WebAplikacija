@@ -402,7 +402,73 @@ Aplikacija je dostupna na `http://127.0.0.1:8000`. Za admin pristup korisniku u 
 - **Sezonske preporuke na osnovu temperature** — Sistem koristi eksterni Weather API kako bi na osnovu trenutne temperature lokacije automatski izdvajao tematski proizvode (npr. hladni napici pri visokim temperaturama, topli napici zimi).
 
 ---
+## 🛢️Izbor baze podataka (MySQL/phpMyAdmin, PostgreSQL/pgAdmin, MongoDB)
 
+Aplikacija je razvijena u Laravel okruženju i koristi relacijski model podataka (tabele, strani ključevi, odnosi 1:N, transakcije). Zbog toga su relacione baze poput MySQL-a i PostgreSQL-a prirodan i najstabilniji izbor za ovaj tip sistema (narudžbe, stavke narudžbe, korpa, logovi statusa, proizvodi, kategorije i sl.). MongoDB je NoSQL baza i najčešće se koristi kada je model podataka fleksibilan i često se mijenja ili kada se radi sa dokumentima, događajima i logovima u velikim količinama, ali nije idealan kao primarna baza za klasičan e-commerce/ordering sistem.
+
+## MySQL (phpMyAdmin) – kada i zašto
+
+MySQL (često MariaDB u lokalnim okruženjima) je vrlo popularan, jednostavan za postavljanje i široko podržan. phpMyAdmin je web alat za administraciju MySQL/MariaDB baza, pogodan za brzo pregledanje tabela, podataka i izvođenje upita.
+
+Prednosti za ovaj projekat:
+
+- Brzo i jednostavno lokalno okruženje (posebno uz XAMPP/Laragon).
+- Dobra kompatibilnost s Laravelom, migracijama i seedovima.
+- Dovoljno stabilan i brz za tipične CRUD i transakcijske tokove (korpa, checkout, narudžbe).
+
+Kada je posebno praktičan:
+
+- Za demo, laboratorijske vježbe, jednostavan deployment i brzu provjeru podataka kroz GUI.
+
+## PostgreSQL (pgAdmin) – kada i zašto
+
+PostgreSQL je napredniji relacijski sistem, poznat po strožoj konzistentnosti, snažnoj podršci za kompleksnije upite, tipove podataka, indekse i generalno “enterprise” pristupu. pgAdmin je GUI alat za upravljanje PostgreSQL bazama.
+
+Prednosti za ovaj projekat:
+
+- Odličan za kompleksnije izvještaje i statistiku (agregacije, joinovi, analitika).
+- Strožije provjere tipova i integriteta (što pomaže kvalitetu podataka).
+- Dobra osnova ako se projekat širi (više lokacija, napredniji reporting, audit).
+
+Kada je posebno praktičan:
+
+Ako želiš ozbiljniji i produkcijski “robustan” DB sloj, posebno za dio statistike i izvještaja.
+
+## MongoDB – gdje ima smisla u ovom projektu (i gdje nema)
+
+MongoDB čuva podatke kao dokumente (JSON-like), bez klasičnih stranih ključeva i joinova na nivou baze. To ga čini odličnim za fleksibilne strukture podataka, ali može otežati modele gdje su odnosi i konzistentnost ključni (npr. order → order_items → product).
+
+Zašto nije idealan kao primarna baza za Slastičarnu:
+
+- Narudžbe i stavke narudžbe imaju jasan relacijski model i zahtijevaju dosljednost.
+- Integritet podataka (FK, ograničenja) je prirodniji u relacijskim bazama.
+- Transakcije i validacija “na nivou baze” tipično su jednostavniji u SQL svijetu za ovakav domen.
+
+Gdje MongoDB može biti koristan kao dodatna komponenta:
+
+- Logovi i događaji (npr. audit trail, detaljni “event” logovi, klikovi, pretrage).
+- Personalizacija i preporuke (npr. čuvanje korisničkih preferenci kao dokument).
+- Keširanje i brzi read modeli (npr. precomputed statistika), iako se to često radi i kroz Redis.
+
+## Šta je “bolje” baš za ovaj projekat
+
+Za Slastičarnu “Slatki raj” najbolji izbor kao primarna baza je relacijska baza:
+
+Preporuka 1 (najjednostavnije): MySQL/MariaDB
+Ako je cilj da sve radi stabilno lokalno i da je administracija jednostavna.
+
+Preporuka 2 (najrobustnije): PostgreSQL
+Ako je cilj jača baza za statistiku, strožiji integritet i bolja osnova za širenje.
+
+Laravel omogućava da promijenu baze (MySQL ↔ PostgreSQL ↔ SQLite) kroz .env bez promjene poslovne logike, jer Eloquent i migracije abstrahuju većinu razlika.
+Ipak, kod promjene baze treba testirati: tipove kolona, default vrijednosti, rad s ID sekvencama (posebno u PostgreSQL), te eventualne razlike u upitima i indeksima.
+
+---
+## 🎯 Zaključak
+
+Aplikacija **Slastičarna** omogućava kupcima jednostavno pregledavanje proizvoda, naručivanje putem korpe i praćenje narudžbi, a administratorima potpunu kontrolu nad proizvodima, narudžbama, lokacijom i statistikom. Integracija s Open-Meteo i Leafletom osigurava da su lokacija i vrijeme uvijek usklađeni s podacima iz baze koje admin može mijenjati na jednom mjestu.
+
+---
 ## Autor
 
 Slastičarna "Slatki raj" — Projekat izrađen u sklopu predmeta Objektno orijentisane baze podataka na Tehničkom fakultetu u Bihaću.
@@ -412,6 +478,3 @@ Slastičarna "Slatki raj" — Projekat izrađen u sklopu predmeta Objektno orije
 
 
 
-## 🎯 Zaključak
-
-Aplikacija **Slastičarna** omogućava kupcima jednostavno pregledavanje proizvoda, naručivanje putem korpe i praćenje narudžbi, a administratorima potpunu kontrolu nad proizvodima, narudžbama, lokacijom i statistikom. Integracija s Open-Meteo i Leafletom osigurava da su lokacija i vrijeme uvijek usklađeni s podacima iz baze koje admin može mijenjati na jednom mjestu.
